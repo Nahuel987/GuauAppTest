@@ -14,6 +14,7 @@ import com.example.guauapp.api.ApiGuau;
 import com.example.guauapp.api.RetrofitClient;
 import com.example.guauapp.modelo.ListaDeRazasRespuesta;
 import com.example.guauapp.modelo.ListaImagenesRespuesta;
+import com.example.guauapp.vista.ImagenesFavoritasFragment;
 import com.example.guauapp.vista.ListaRazasFragment;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
 //INSTACNCIO FRAGMENTO UNO
 ListaRazasFragment fragUno;
+ImagenesFavoritasFragment fragImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +38,12 @@ ListaRazasFragment fragUno;
         //CREO OBJETO DE FRAGMENTO LISTADO RAZAS
         fragUno=new ListaRazasFragment();
 
+
+
         //SE EJECUTA EL ADMINISTRADOR DEL FRAGMENTO, SE INICIA SU TRANSACCION Y SE REMPLAZA CONTENEDOR FRAGMENTO (ID DE MAIN ACTIVITY XML POR OBJETO FRAG UNO DE FRAGMENTO LISTA RAZA PERROS)
         getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentoUno,fragUno).commit();
+
+
 
 
     }//on create

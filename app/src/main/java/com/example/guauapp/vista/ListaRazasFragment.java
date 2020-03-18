@@ -1,8 +1,12 @@
 package com.example.guauapp.vista;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
+
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,9 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.guauapp.R;
 import com.example.guauapp.adaptador.AdaptadorListaDeRazas;
+import com.example.guauapp.adaptador.AdaptadorListaImagenes;
 import com.example.guauapp.api.ApiGuau;
 import com.example.guauapp.api.RetrofitClient;
 import com.example.guauapp.modelo.ListaDeRazasRespuesta;
@@ -46,7 +52,7 @@ public class ListaRazasFragment extends Fragment {
     //PASO 2  HACER LA REFERENCIA AL RECYCLER VIEW DE DONDE SE MOSTRARA LA LISTA EN ESTE CASO EL RECYCLER ESTA EN FRAGMENT LISTA RAZAS XML
     private RecyclerView recicla;
 
-    //SE CERA UN STRING PERRO1 PERO NO SE EN QUE PASO VA  ??????
+    //SE CERA UN STRING PERRO1 PARA QUE RECIBA UN PERRO DE ACUERDO A LA POSICION DE =>   perro1=perritos.get(recicla.getChildAdapterPosition(view));
     private String perro1;
 
     //ImagenesFavoritasFragment fragFavorita;
@@ -98,17 +104,12 @@ public class ListaRazasFragment extends Fragment {
         /*
         // TESTING DE LLENADO DEL RECYCLER VIEW
         for(int i=0;i<=50;i++){
-
             perriwis.add("DATOSS  " + i + " OK ");
-
         }
-
         //PASO 13 INSTANCIAR EL ADAPTADOR Y DARLE COMO PARAMETROS LA LISTA A MOSTRAR
         AdaptadorListaDeRazas adaptadorListaDeRazas = new AdaptadorListaDeRazas(perriwis);
-
         //PASO 14 DAR COMO PARAMETRO AL RECYCLER VIEW LA LISTA
         recicla.setAdapter(adaptadorListaDeRazas);
-
 */
 
 
@@ -128,7 +129,21 @@ public class ListaRazasFragment extends Fragment {
         recicla.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //PASO 7 SE CREA EL METODO LLENAR LISTA EL CUAL LLENA LA LISTA A MOSTRAR
-        llenarLista();
+        //llenarListaRazas();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -137,40 +152,51 @@ public class ListaRazasFragment extends Fragment {
         boton = (Button) vista.findViewById(R.id.botonFavoritos);
 
         //METODO DEL BOTONNNN INTENTA PASAR DE UN FRAGMENTO A OTRO
+
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImagenesFavoritasFragment fragFavorita =new ImagenesFavoritasFragment();
-                fragFavorita.
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentoImagenesFavoritas,fragFavorita)
-                        .addToBackStack(null)
-                        .commit();
+
+                Toast.makeText(getContext(), "JAJAJA IDIOTA NO TE RESULTA JAJAJA", Toast.LENGTH_SHORT).show();
+
+                pasarOtroFragmento();
 
 
-                //DE ESTA LINEA PARA ABAJO EMPIEZA EL PROBLEM!!!!!!!
-                //SE EJECUTA EL ADMINISTRADOR DEL FRAGMENTO, SE INICIA SU TRANSACCION Y SE REMPLAZA CONTENEDOR FRAGMENTO (ID DE MAIN ACTIVITY XML POR OBJETO FRAG UNO DE FRAGMENTO LISTA RAZA PERROS)
-               // getActivity(getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.fragmentoImagenesFavoritas,fragFavorita).commit();
-               // getFragmentManager().beginTransaction().replace(R.id.fragmentoImagenesFavoritas,fragFavorita).commit();
-/*
-                ImagenesFavoritasFragment nuevoFragmento = new ImagenesFavoritasFragment();
-                FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentoImagenesFavoritas, nuevoFragmento);
-                transaction.addToBackStack(null);
 
-                // Commit a la transacción
-                transaction.commit();  */
 
-            }
-        });
+                }
+            });
 
 
         return vista;
     }//on create view
 
+    public void pasarOtroFragmento(){
 
 
-    private void llenarLista(){
+
+
+        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+        ImagenesFavoritasFragment fragImg = new ImagenesFavoritasFragment();
+        fragmentTransaction.replace(R.id.fragmentoImagenesFavoritas, fragImg);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    private void llenarListaRazas(){
 
         //METODO QUE SE CONECTA A LA API CON RETROFIT Y DEVUELVE LA LISTA CON LAS RAZAS DE PERRITOS
 
@@ -190,7 +216,7 @@ public class ListaRazasFragment extends Fragment {
                 //SI LA RESPUESTA FUE EXITOSA SE OBTIENE LA LISTA DE RAZAS EN EL OBJETO getListaRazas() USANDO EL METODO response.body()
                 //AQUI ES DONDE SE LLENA LA LISTA
                 //PAA VERIFICAR QUE TODE ESTE FUNCIONADO SE PUEDE RECORRER LA LISTA CON UN ITERADOR FOR
-                List<String> perritos = response.body().getListaRazas();
+                final List<String> perritos = response.body().getListaRazas();
                 perro1 = perritos.get(0);//LLAMO AL PRIMER PERRITO DE LA LISTA
 
                 //PASO 8 INSTANCIAR EL ADAPTADOR Y DARLE COMO PARAMETROS LA LISTA A MOSTRAR
@@ -200,17 +226,48 @@ public class ListaRazasFragment extends Fragment {
                 // -- FIN DEL PROCESO DE CARGAR EL FRAGMENTO CON RECICYCLER VIEW --
                 recicla.setAdapter(adaptadorListaDeRazas);
 
+                //EVENTO ON CLICK LISTENER PASO 6 (LLEGANDO DE PASO 5 DE ADAPTADOR RAZAS DE PERRITOS)
+                //AQUI SE DEBE ASIGNAR AL ADAPTADOR EL EVENTO SET ON CLICK LISTENER
+                adaptadorListaDeRazas.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        //DE MOMENTO SE MUESTRA UN TOAST PARA MOSTRAR LA RAZA SELECCIONADA
+                        Toast.makeText(getContext(),"RAZA SELECCIONADA "+perritos.get(recicla.getChildAdapterPosition(view)),Toast.LENGTH_SHORT).show();
+
+
+                        //LINEA QUE HACE LA VERDADERA MAGIA!!!!!!
+                        perro1=perritos.get(recicla.getChildAdapterPosition(view));
+
+                        if (!perro1.equals("")) {
+                            listaImagenesPerritos();
+                        }
+
+
+
+                    }
+                });//on click listener adadptador
+
+
 
                 //LOG PARA VER QUE DEVUELVE EL NOMBRE DE LA RAZA DE LA LISTA (PERRITOS)
                 Log.e("PERRITOS", String.valueOf(perritos));
 
 
+
+
+/*
+
                 //IF QUE PREGUNTA SI EL PRIMER PERRO DE LA LISTA ES DISTINTO DE VACIO Y EJECUTA METODO whoLetTheDogsOut();
                 if (!perro1.equals("")) {
                     whoLetTheDogsOut();
-                }
+                }*/
 
             }
+
+
+
+
 
             @Override// METODO QUE SE EJECUTA CUANDO FALLA LA RESPUESTA A LA CONSULTA REALIZADA --> Call<ListaDeRazasRespuesta> EJ: NO HAY INTERNET
             public void onFailure(Call<ListaDeRazasRespuesta> call, Throwable t) {
@@ -223,14 +280,11 @@ public class ListaRazasFragment extends Fragment {
         });
 
 
+    }//llenarLista
 
 
 
-
-   }//llenarLista
-
-
-    private void whoLetTheDogsOut() {
+    private void listaImagenesPerritos() {
 
         //METODO QUE DEVUELVE LA LISTA DE IMAGENES DE PERRITOS
 
@@ -247,15 +301,16 @@ public class ListaRazasFragment extends Fragment {
 
                 //SI LA RESPUESTA FUE EXITOSA SE OBTIENE LA LISTA DE IMAGENES EN EL OBJETO images URL USANDO EL METODO response.body()
                 //PAA VERIFICAR QUE TODE ESTE FUNCIONADO SE PUEDE RECORRER LA LISTA CON UN ITERADOR FOR
-                List<String> imagesURL = response.body().getListaImagenesURL();
+                List<String> imagenesURL = response.body().getListaImagenesURL();
 
                 //INSTANCIAR EL ADAPTADOR Y DARLE COMO PARAMETROS LA LISTA A MOSTRAR
-                //AdaptadorListaDeRazas adaptadorListaDeRazas = new AdaptadorListaDeRazas(imagesURL);
+                //AdaptadorListaImagenes adaptadorLista = new AdaptadorListaDeRazas(imagesURL);
+                AdaptadorListaImagenes adaptadorListaImagenes=new AdaptadorListaImagenes(imagenesURL);
 
-                //PASO DAR COMO PARAMETRO AL RECYCLER VIEW LA LISTA
-                //recicla.setAdapter(adaptadorListaDeRazas);
+                //PASO DAR COMO PARAMETRO AL RECYCLER VIEW LAS IMAGENES
+                //recicla.setAdapter(AdaptadorListaImagenes);
 
-                Log.e("IMAGENES PERRITOS OK", String.valueOf(imagesURL));
+                Log.e("IMAGENES PERRITOS OK", String.valueOf(imagenesURL));
             }
 
             @Override// METODO QUE SE EJECUTA CUANDO FALLA LA RESPUESTA A LA CONSULTA REALIZADA --> Call<BreedImageListResponse> EJ: NO HAY INTERNET
@@ -268,6 +323,7 @@ public class ListaRazasFragment extends Fragment {
         });
 
     }// whoLetTheDogsOut
+
 
 
 }//class fragmento
