@@ -18,10 +18,10 @@ public class AdaptadorListaImagenes extends RecyclerView.Adapter<AdaptadorListaI
 
 
     //PASO 1 SE CREA LA REFERENCIA DE LA LISTA A MOSTRAR
-    List<ListaImagenesRespuesta> perriwisImagenesUrl;//VERIFICAR SI LA LISTA A MOSTRAR ES STRING O DE UN OBJETO LISTA DE RAZAS RESPUESTA
+    List<String> perriwisImagenesUrl;// LA LISTA A MOSTRAR ES STRING  DE UN OBJETO LISTA DE RAZAS RESPUESTA
 
     //PASO 2 SE CREA CONSTRUCTOR DEL ADAPTADOR QUE TENDRA UNA LISTA COMO SU ATRIBUTO
-    public AdaptadorListaImagenes(List<ListaImagenesRespuesta> perriwisImagenesUrl) {
+    public AdaptadorListaImagenes(List<String> perriwisImagenesUrl) {
         this.perriwisImagenesUrl = perriwisImagenesUrl;
     }
 
@@ -41,7 +41,7 @@ public class AdaptadorListaImagenes extends RecyclerView.Adapter<AdaptadorListaI
     public void onBindViewHolder(@NonNull ViewHolderImagenesRaza holder, int position) {
 
         //PASO 7 SE ASIGNA UN OBJETO HOLDER CON UN METODO DE LA CLASE VIEW HOLDER Y LA LISTA A MOSTRAR
-        //holder.asignarDatos(perriwisImagenesUrl.get(position));
+        //holder.asignarImagen(perriwisImagenesUrl.get(position));
         /*
         Glide.with(holder.imagenGuauView.getContext())
                 .load(ListaImagenesRespuesta.get())
@@ -82,6 +82,7 @@ public class AdaptadorListaImagenes extends RecyclerView.Adapter<AdaptadorListaI
             //PASO 9 SE ASIGNA A VARIABLE ImageView LA INFROMACION QUE VA A LLEGAR EN ESTE CASO STRING
             //ImageView.
             // COMO ASIGNAR IMAGEN?
+
         }
 
 

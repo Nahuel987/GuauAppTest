@@ -12,10 +12,14 @@ import com.example.guauapp.R;
 
 import java.util.List;
 
-public class AdaptadorListaDeRazas extends RecyclerView.Adapter<AdaptadorListaDeRazas.ViewHolderDatosRazas>{
+public class AdaptadorListaDeRazas extends RecyclerView.Adapter<AdaptadorListaDeRazas.ViewHolderDatosRazas> implements View.OnClickListener {
 
     //PASO 1 SE CREA LA REFERENCIA DE LA LISTA A MOSTRAR
     List<String> perriwis;//VERIFICAR SI LA LISTA A MOSTRAR ES STRING O DE UN OBJETO LISTA DE RAZAS RESPUESTA
+
+
+    //EVENETO ON CLICK LISTENER PASO 2 DECLARAR VARIABLE PARA ASOCIARLA AL METODO
+    private View.OnClickListener listener;
 
     //PASO 2 SE CREA CONSTRUCTOR DEL ADAPTADOR QUE TENDRA UNA LISTA COMO SU ATRIBUTO
     public AdaptadorListaDeRazas(List<String> perriwis) {
@@ -31,6 +35,11 @@ public class AdaptadorListaDeRazas extends RecyclerView.Adapter<AdaptadorListaDe
         //PASO 5 INFLAR EL VIEW Y RETORNARLO COMO UNA INSTANCIA
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lista_razas,null,false);
 
+
+        //EVENETO ON CLICK LISTENER PASO 3 PONER A ESCUCHAR EVENTO ON CLICK EN CLASE ADAPTADOR   this ES PARA QU3E PUEDA ESCUCHAR EL EVENTO DE SELCCIONM
+
+        view.setOnClickListener(this);
+
         return new ViewHolderDatosRazas(view);
     }
 
@@ -45,11 +54,27 @@ public class AdaptadorListaDeRazas extends RecyclerView.Adapter<AdaptadorListaDe
     @Override//RETORNA EL TAMAÑO DE LA LISTA
     public int getItemCount() {
 
-        //PASO 6
+        //PASO 6 RETORNA EL TAMAÑO DE LA LISTA DE PERRITOS
         return perriwis.size();
     }
 
+    //EVENTO ON CLICK LISTENER PASO 4 SE CREA METODO PARA ESCUCHAR AL EVENTO ON CLICK
+    public void setOnClickListener(View.OnClickListener listener){
 
+        this.listener=listener;
+
+    }
+
+    //EVENTO ON CLICK LISTENER PASO 1 CREAR METODO PREVIA IMPLEMENTENCION DE ONCLICK LISTENER
+    @Override
+    public void onClick(View view) {
+
+        //EVENTO ON CLICK LISTENER PASO 5 VALIDAR SI EL EVENTO LISTENER ES DISTINTO DE VACIO, PARA QUE DEVUELVA UNA VISTA VIEW
+        if(listener!=null){
+            listener.onClick(view);
+        }
+
+    }
 
 
     public class ViewHolderDatosRazas extends RecyclerView.ViewHolder {
