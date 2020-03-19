@@ -3,12 +3,19 @@ package com.example.guauapp.vista;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.guauapp.R;
+import com.example.guauapp.adaptador.AdaptadorListaFavoritos;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +31,17 @@ public class ImagenesFavoritasFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
+    List<String> listaImagenesFavoritos;
+
+    private RecyclerView reciclaImagenesFavoritos;
+
+    AdaptadorListaFavoritos adaptadorListaFavoritos;
+
+
+
+
 
     public ImagenesFavoritasFragment() {
         // Required empty public constructor
@@ -60,6 +78,33 @@ public class ImagenesFavoritasFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_imagenes_favoritas, container, true);
+
+        View vista = inflater.inflate(R.layout.fragment_imagenes_favoritas, container, false);
+
+        reciclaImagenesFavoritos= (RecyclerView) vista.findViewById(R.id.RecyclerListaFavoritos);
+
+        reciclaImagenesFavoritos.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        //SE HARDCODEA UNA LISTA Y SE DA COMO PARAMETRO AL ADAPTADOR DE IMAGENES DE FAVORITOS
+
+        List<String> listaImagenesFavoritos= new ArrayList<>();
+
+        listaImagenesFavoritos.add("https://images.dog.ceo/breeds/poodle-toy/n02113624_836.jpg");
+        listaImagenesFavoritos.add("https://images.dog.ceo/breeds/poodle-toy/n02113624_3344.jpg");
+        listaImagenesFavoritos.add("https://images.dog.ceo/breeds/poodle-toy/n02113624_2595.jpg");
+        listaImagenesFavoritos.add("https://images.dog.ceo/breeds/poodle-toy/n02113624_189.jpg");
+        listaImagenesFavoritos.add("https://images.dog.ceo/breeds/poodle-toy/n02113624_1801.jpg");
+        //
+
+//        if(listaIamgenesFavoritos!=null){
+//            adaptadorListaFavoritos=new AdaptadorListaFavoritos(listaImagenesFavoritos,getContext());
+//
+//        }
+
+        adaptadorListaFavoritos=new AdaptadorListaFavoritos(listaImagenesFavoritos,getContext());
+
+        reciclaImagenesFavoritos.setAdapter(adaptadorListaFavoritos);
+
+        return vista;
     }
 }

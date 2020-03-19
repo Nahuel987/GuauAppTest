@@ -55,9 +55,12 @@ public class ListaRazasFragment extends Fragment {
     //SE CERA UN STRING PERRO1 PARA QUE RECIBA UN PERRO DE ACUERDO A LA POSICION DE =>   perro1=perritos.get(recicla.getChildAdapterPosition(view));
     private String perro1;
 
-    //ImagenesFavoritasFragment fragFavorita;
+    //SE DECLARA UN BOTON PARA PASAR AL FRAGMENTO DE IMAGENES FAVORITAS
+    private Button boton;
 
-    Button boton;
+    //SE INSTANCIA LA LISTA IMAGENES URL PARA PODER USARLA EN EL METODO LLENAR LISTA IMAGENES Y DARSELA COMO PARAMETRO AL CONTRUCCTOR DE IMAGENES PRERRITOS FRAGMENT
+    List<String> imagenesURL=new ArrayList<>();
+
 
 
 
@@ -129,61 +132,30 @@ public class ListaRazasFragment extends Fragment {
         recicla.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //PASO 7 SE CREA EL METODO LLENAR LISTA EL CUAL LLENA LA LISTA A MOSTRAR
-        //llenarListaRazas();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        llenarListaRazas();
 
 
         /*  BOTON CON EL QUE SE PRETENDE PASAR DE UN FRAGMENTO A OTRO*/
-
+        //HACER LA REFERENCIA AL BOTON CON EL OBJETO BOTON DEL XML
         boton = (Button) vista.findViewById(R.id.botonFavoritos);
 
         //METODO DEL BOTONNNN INTENTA PASAR DE UN FRAGMENTO A OTRO
-
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(getContext(), "JAJAJA IDIOTA NO TE RESULTA JAJAJA", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "IMAGENES FAVORITAS", Toast.LENGTH_SHORT).show();
 
-                pasarOtroFragmento();
-
-
-
-
-                }
-            });
+                //SI SE ACCIONA EVENTO CLICK DEL BOTON , SE EJECUTA EL METODO DE ABAJO
+                pasarAfragmentoImagenesFavoritas();
+            }
+        });
 
 
         return vista;
     }//on create view
 
-    public void pasarOtroFragmento(){
 
-
-
-
-        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-        ImagenesFavoritasFragment fragImg = new ImagenesFavoritasFragment();
-        fragmentTransaction.replace(R.id.fragmentoImagenesFavoritas, fragImg);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-
-
-    }
 
 
 
@@ -237,10 +209,14 @@ public class ListaRazasFragment extends Fragment {
 
 
                         //LINEA QUE HACE LA VERDADERA MAGIA!!!!!!
+                        //LE ASIGNA A PERRO1 UN ARRAY CON LA LISTA DE LA RAZA DE PERRITO SELECCIONADA
                         perro1=perritos.get(recicla.getChildAdapterPosition(view));
 
+
+                        //IF QUE PREGUNTA SI EL PRIMER PERRO DE LA LISTA ES DISTINTO DE VACIO Y EJECUTA METODO listaImagenesPerritos();
                         if (!perro1.equals("")) {
                             listaImagenesPerritos();
+                            //pasarAfragmentoImagenesPerritos();//DUDO QUE VALLA AKISSSS
                         }
 
 
@@ -253,15 +229,6 @@ public class ListaRazasFragment extends Fragment {
                 //LOG PARA VER QUE DEVUELVE EL NOMBRE DE LA RAZA DE LA LISTA (PERRITOS)
                 Log.e("PERRITOS", String.valueOf(perritos));
 
-
-
-
-/*
-
-                //IF QUE PREGUNTA SI EL PRIMER PERRO DE LA LISTA ES DISTINTO DE VACIO Y EJECUTA METODO whoLetTheDogsOut();
-                if (!perro1.equals("")) {
-                    whoLetTheDogsOut();
-                }*/
 
             }
 
@@ -292,7 +259,10 @@ public class ListaRazasFragment extends Fragment {
         ApiGuau service = RetrofitClient.getRetrofitInstance().create(ApiGuau.class);
 
         //PASO 2: LA VARIABLE SERVICE LLAMA AL METODO QUE SE CREO EJ:getBeedImageList RECIBIENDO LA RESPUESTA EN EL OBJETO callImages.
+        //PARA ESTE CASO GET LISTA IMAGENES SE LE ASIGNA LA POSICION QUE RECIBIO EN EL METODO ANTERIOR LLENAR LISTA (), EN PERRO1
         Call<ListaImagenesRespuesta> callImages = service.getListaImagenesURL(perro1);
+
+
 
         //PASO 3: SE UTILIZA METODO ENQUEUE PARA MANEJAR LOS RESULTADOS EN SUS METODOS INTERNOS
         callImages.enqueue(new Callback<ListaImagenesRespuesta>() {
@@ -301,7 +271,19 @@ public class ListaRazasFragment extends Fragment {
 
                 //SI LA RESPUESTA FUE EXITOSA SE OBTIENE LA LISTA DE IMAGENES EN EL OBJETO images URL USANDO EL METODO response.body()
                 //PAA VERIFICAR QUE TODE ESTE FUNCIONADO SE PUEDE RECORRER LA LISTA CON UN ITERADOR FOR
-                List<String> imagenesURL = response.body().getListaImagenesURL();
+                List<String> imagenesURL = response.body().getListaImagenesURL();//PASAR ESTA LISTA AL FRAGMENTO IMAGNES PERRITOS
+
+
+                //LE PASO COMO ARGUMENTO LA LISTA CON LAS IMAGENES DEL PERRITO
+                pasarAfragmentoImagenesPerritos(imagenesURL);
+
+
+
+
+
+
+
+                /*LLEVARME ESTO PARA FRAG IMANGES PERRITOS
 
                 //INSTANCIAR EL ADAPTADOR Y DARLE COMO PARAMETROS LA LISTA A MOSTRAR
                 //AdaptadorListaImagenes adaptadorLista = new AdaptadorListaDeRazas(imagesURL);
@@ -309,9 +291,14 @@ public class ListaRazasFragment extends Fragment {
 
                 //PASO DAR COMO PARAMETRO AL RECYCLER VIEW LAS IMAGENES
                 //recicla.setAdapter(AdaptadorListaImagenes);
+                */
+
 
                 Log.e("IMAGENES PERRITOS OK", String.valueOf(imagenesURL));
             }
+
+
+
 
             @Override// METODO QUE SE EJECUTA CUANDO FALLA LA RESPUESTA A LA CONSULTA REALIZADA --> Call<BreedImageListResponse> EJ: NO HAY INTERNET
             public void onFailure(Call<ListaImagenesRespuesta> call, Throwable t) {
@@ -322,7 +309,30 @@ public class ListaRazasFragment extends Fragment {
             }
         });
 
-    }// whoLetTheDogsOut
+    }// listaImagenesPerritos
+
+
+
+    public void pasarAfragmentoImagenesFavoritas(){
+
+
+        //METODO QUE PERMITE PASAR A FRAGMENTO DE IMAGENES FAVORITAS
+        ImagenesFavoritasFragment fragImgFavoritas = new ImagenesFavoritasFragment();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentoUno,fragImgFavoritas,"PASANDO A FRAG IMG FAVORITAS").addToBackStack("PASANDO A BACK").commit();
+
+    }//pasarAfragmentoImagenesFavoritas
+
+
+    public void pasarAfragmentoImagenesPerritos(List <String> listaPerritosXrazas){
+
+
+        //METODO QUE PERMITE PASAR A FRAGMENTO DE IMAGENES FAVORITAS
+        ImagenesPerritosFragment fragImgPerritos=ImagenesPerritosFragment.newInstance(listaPerritosXrazas);
+
+        //ImagenesPerritosFragment fragImgPerritos = new ImagenesPerritosFragment();  //ESTA LINEA YA NO VA, YA QUE LA DECLARACION DEL FRAGMENTO IMAGENES PERRITOS CAMBIO, POR SOBRE CARGA DE METODOS
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentoUno,fragImgPerritos,"PASANDO A FRAG IMG PERRITOS").addToBackStack("PASANDO A BACK").commit();
+
+    }//pasarAfragmentoImagenesPerritos
 
 
 

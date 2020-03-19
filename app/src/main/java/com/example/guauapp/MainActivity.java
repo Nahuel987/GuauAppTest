@@ -41,7 +41,7 @@ ImagenesFavoritasFragment fragImg;
 
 
         //SE EJECUTA EL ADMINISTRADOR DEL FRAGMENTO, SE INICIA SU TRANSACCION Y SE REMPLAZA CONTENEDOR FRAGMENTO (ID DE MAIN ACTIVITY XML POR OBJETO FRAG UNO DE FRAGMENTO LISTA RAZA PERROS)
-        getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentoUno,fragUno).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragmentoUno,fragUno).commit();
 
 
 
