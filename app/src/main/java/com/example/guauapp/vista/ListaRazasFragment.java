@@ -25,6 +25,7 @@ import com.example.guauapp.api.ApiGuau;
 import com.example.guauapp.api.RetrofitClient;
 import com.example.guauapp.modelo.ListaDeRazasRespuesta;
 import com.example.guauapp.modelo.ListaImagenesRespuesta;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,12 @@ public class ListaRazasFragment extends Fragment {
     private String perro1;
 
     //SE DECLARA UN BOTON PARA PASAR AL FRAGMENTO DE IMAGENES FAVORITAS
-    private Button boton;
+   // private Button boton;
+
+    //SE REEMPLAZA EL BOTON ANTERIROR POR UN FLOATING ACCTION BUTTON
+    FloatingActionButton boton;
+
+
 
     //SE INSTANCIA LA LISTA IMAGENES URL PARA PODER USARLA EN EL METODO LLENAR LISTA IMAGENES Y DARSELA COMO PARAMETRO AL CONTRUCCTOR DE IMAGENES PRERRITOS FRAGMENT
     List<String> imagenesURL=new ArrayList<>();
@@ -137,7 +143,9 @@ public class ListaRazasFragment extends Fragment {
 
         /*  BOTON CON EL QUE SE PRETENDE PASAR DE UN FRAGMENTO A OTRO*/
         //HACER LA REFERENCIA AL BOTON CON EL OBJETO BOTON DEL XML
-        boton = (Button) vista.findViewById(R.id.botonFavoritos);
+        //boton = (Button) vista.findViewById(R.id.botonFavoritos);
+
+        boton =  vista.findViewById(R.id.floatingActionButton);
 
         //METODO DEL BOTONNNN INTENTA PASAR DE UN FRAGMENTO A OTRO
         boton.setOnClickListener(new View.OnClickListener() {

@@ -81,9 +81,9 @@ public class ImagenesFavoritasFragment extends Fragment {
 
         View vista = inflater.inflate(R.layout.fragment_imagenes_favoritas, container, false);
 
-        reciclaImagenesFavoritos= (RecyclerView) vista.findViewById(R.id.RecyclerListaFavoritos);
+        //reciclaImagenesFavoritos= (RecyclerView) vista.findViewById(R.id.RecyclerListaFavoritos);
+        reciclaImagenesFavoritos=  vista.findViewById(R.id.RecyclerListaFavoritos);
 
-        reciclaImagenesFavoritos.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //SE HARDCODEA UNA LISTA Y SE DA COMO PARAMETRO AL ADAPTADOR DE IMAGENES DE FAVORITOS
 
@@ -103,7 +103,11 @@ public class ImagenesFavoritasFragment extends Fragment {
 
         adaptadorListaFavoritos=new AdaptadorListaFavoritos(listaImagenesFavoritos,getContext());
 
+
+
         reciclaImagenesFavoritos.setAdapter(adaptadorListaFavoritos);
+
+        reciclaImagenesFavoritos.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return vista;
     }

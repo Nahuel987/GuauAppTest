@@ -18,7 +18,7 @@ import com.example.guauapp.modelo.ListaImagenesRespuesta;
 
 import java.util.List;
 
-public class AdaptadorListaImagenes extends RecyclerView.Adapter<AdaptadorListaImagenes.ViewHolderImagenesRaza> implements View.OnLongClickListener{
+public class AdaptadorListaImagenes extends RecyclerView.Adapter<AdaptadorListaImagenes.ViewHolderImagenesRaza> {
 
 
     //PASO 1 SE CREA LA REFERENCIA DE LA LISTA A MOSTRAR
@@ -28,7 +28,7 @@ public class AdaptadorListaImagenes extends RecyclerView.Adapter<AdaptadorListaI
 
 
     //EVENETO ON LONG CLICK LISTENER PASO 2 DECLARAR VARIABLE PARA ASOCIARLA AL METODO
-    private View.OnLongClickListener listener;
+//    private View.OnLongClickListener listener;
 
 
     //PASO 2 SE CREA CONSTRUCTOR DEL ADAPTADOR QUE TENDRA UNA LISTA COMO SU ATRIBUTO
@@ -49,7 +49,7 @@ public class AdaptadorListaImagenes extends RecyclerView.Adapter<AdaptadorListaI
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lista_fotos,parent,false);//SI NO LLEVA PARENT LA APP NO MUESTRA LAS IMAGENES
 
         //EVENETO ON LONG CLICK LISTENER PASO 3 PONER A ESCUCHAR EVENTO ON CLICK EN CLASE ADAPTADOR   this ES PARA QU3E PUEDA ESCUCHAR EL EVENTO DE SELCCIONM
-        view.setOnLongClickListener(this);
+//        view.setOnLongClickListener(this);
 
         return new ViewHolderImagenesRaza(view);
     }
@@ -67,21 +67,37 @@ public class AdaptadorListaImagenes extends RecyclerView.Adapter<AdaptadorListaI
 
         //SE USA LA LIBRERIA GLADE LA CUAL SE ENCARGA DE MOSTRAR UNA IMAGEN EN UN RECYCLER VIEW EN BASE A UNA URL
         Glide.with(holder.imagenGuauView.getContext())
-                .load(fotoUrlFavoritos)
-                .into(holder.imagenGuauView);
+                .load(fotoUrlFavoritos)         //RECIBE LA URL
+                .centerCrop()                   //CENTRA LA IMAGEN
+                .into(holder.imagenGuauView);   //LE DICE DONDE TIENE QUE MOSTRARLA
 
 
-//        holder.imagenGuauView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//
-//                Toast.makeText(context, "DESDE EL ON BIND ADAPTER", Toast.LENGTH_SHORT).show();
-//                return false;
-//            }
-//        }
+        /*PRUEBA DE IMPLEMENTAR UN EVENTO ON LONG LISTENER*/
+
+        holder.imagenGuauView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                Toast.makeText(context, "MERENGUE MERENGUE", Toast.LENGTH_SHORT).show();
+
+                return false;
+            }
+        });
 
 
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+    }//onBindViewHolder
 
     @Override//RETORNA EL TAMAÑO DE LA LISTA
     public int getItemCount() {
@@ -93,21 +109,21 @@ public class AdaptadorListaImagenes extends RecyclerView.Adapter<AdaptadorListaI
 
 
     //EVENTO ON LONG CLICK LISTENER PASO 4 SE CREA METODO PARA ESCUCHAR AL EVENTO ON CLICK
-    public void setOnLongClickListener(View.OnLongClickListener listener){
-
-        this.listener=listener;
-
-    }
-
-    @Override//EVENTO ON LONG CLICK LISTENER PASO 1 CREAR METODO PREVIA IMPLEMENTENCION DE ONCLICK LISTENER
-    public boolean onLongClick(View view) {
-
-        //EVENTO ON CLICK LISTENER PASO 5 VALIDAR SI EL EVENTO LISTENER ES DISTINTO DE VACIO, PARA QUE DEVUELVA UNA VISTA VIEW
-        if(listener!=null){
-            listener.onLongClick(view);
-        }
-        return false;
-    }
+//    public void setOnLongClickListener(View.OnLongClickListener listener){
+//
+//        this.listener=listener;
+//
+//    }
+//
+//    @Override//EVENTO ON LONG CLICK LISTENER PASO 1 CREAR METODO PREVIA IMPLEMENTENCION DE ONCLICK LISTENER
+//    public boolean onLongClick(View view) {
+//
+//        //EVENTO ON CLICK LISTENER PASO 5 VALIDAR SI EL EVENTO LISTENER ES DISTINTO DE VACIO, PARA QUE DEVUELVA UNA VISTA VIEW
+//        if(listener!=null){
+//            listener.onLongClick(view);
+//        }
+//        return false;
+//    }
 
 
 

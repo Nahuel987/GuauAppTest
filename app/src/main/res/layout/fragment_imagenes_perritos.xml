@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".vista.ImagenesPerritosFragment">
+    tools:context=".vista.ImagenesPerritosFragment"
+    android:background="@drawable/degradado_blessing"
+    >
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

@@ -48,9 +48,8 @@ public class AdaptadorListaFavoritos extends RecyclerView.Adapter<AdaptadorLista
         //SE USA LA LIBRERIA GLADE LA CUAL SE ENCARGA DE MOSTRAR UNA IMAGEN EN UN RECYCLER VIEW EN BASE A UNA URL
         Glide.with(holder.imagenesFavoritos.getContext())
                 .load(fotoUrl)
+                .centerCrop()
                 .into(holder.imagenesFavoritos);
-
-
     }
 
     @Override
