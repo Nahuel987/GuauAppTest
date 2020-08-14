@@ -15,6 +15,4 @@ public interface ApiGuau {
     @GET("api/breed/{breed}/images/")
     Call<ListaImagenesRespuesta> getListaImagenesURL(@Path("breed") String breed);
 
-
-
 }

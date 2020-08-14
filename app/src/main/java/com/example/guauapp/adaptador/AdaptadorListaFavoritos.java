@@ -42,12 +42,11 @@ public class AdaptadorListaFavoritos extends RecyclerView.Adapter<AdaptadorLista
     @Override
     public void onBindViewHolder(@NonNull ViewHolderImagenesFavoritos holder, int position) {
 
-        //SE CREA VARIABLE FOTO URL LA CUAL RECIBIRA UNA URL DE ACUERDO A LA POSICION DEVUELTA POR GET POSISITION()
-        String fotoUrl=listaImagenesFavoritos.get(position);
 
-        //SE USA LA LIBRERIA GLADE LA CUAL SE ENCARGA DE MOSTRAR UNA IMAGEN EN UN RECYCLER VIEW EN BASE A UNA URL
+        String fotoUrlFavoritos=listaImagenesFavoritos.get(position);
+
         Glide.with(holder.imagenesFavoritos.getContext())
-                .load(fotoUrl)
+                .load(fotoUrlFavoritos)
                 .centerCrop()
                 .into(holder.imagenesFavoritos);
     }
@@ -70,8 +69,6 @@ public class AdaptadorListaFavoritos extends RecyclerView.Adapter<AdaptadorLista
 
         }
 
+    }
 
-    }//class ViewHolderImagenesFavoritos
-
-
-}//class AdaptadorListaFavoritos
+}

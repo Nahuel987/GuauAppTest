@@ -14,8 +14,7 @@ public class RetrofitClient {
         if (retrofit==null){
             retrofit=new retrofit2.Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    //GSON Converter FORMATEA LA RESPUESTA DEL JSON
-                    .addConverterFactory(GsonConverterFactory.create()) //DEVUELVE LA INSTANCIA EN OBJETO
+                    .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
 
